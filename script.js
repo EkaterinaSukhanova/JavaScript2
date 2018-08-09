@@ -10,8 +10,15 @@ function CoffeeMachine(power) {
     var coffeeAmount = 0;
     var maxTemp = 90;
     var waterHeatCapacity = 4200;
-    var state = false;
     var timerId = 0;
+
+    this.getAmountWater = function () {
+        return waterAmount;
+    };
+
+    this.getAmountCoffee = function () {
+        return coffeeAmount;
+    };
 
     this.addWater = function (newAmount) {
         if (newAmount > 0) {
@@ -39,16 +46,31 @@ function CoffeeMachine(power) {
 
     this.stopLaunch = function () {
         clearTimeout(timerId);
+        var div = document.querySelector("div.end");
+        div.innerText = "Ожидание";
     };
 
     this.launch = function () {
+        var div = document.querySelector("div.end");
+        var divWater = document.querySelector("div.amount-water");
+        var divCoffee = document.querySelector("div.amount-coffee");
+
+        div.innerText = "Выполнение";
+
         if (waterAmount < 50 || coffeeAmount < 10){
-            console.error('Проверьте количество кофе и воды!');
+            div.innerText = "Проверьте количество кофе и воды!";
+            console.error("Проверьте количество кофе и воды!");
         } else {
-            state = true;
             timerId = setTimeout(function () {
-                console.log('Кофе готов!')
+                div.innerText = "Кофе готов!";
+
+                waterAmount -= 50;
+                coffeeAmount -= 10;
+
+                divWater.innerText = `Количество воды: ${waterAmount} мл`;
+                divCoffee.innerText = `Количество кофе: ${coffeeAmount} г`;
             }, calcBoilTime());
+
 
         }
     };
@@ -57,8 +79,34 @@ function CoffeeMachine(power) {
 
 var vitek = new CoffeeMachine(8000);
 
-vitek.addWater(50);
-vitek.addCoffee(50);
-console.log(vitek.getBoilTime());
-vitek.launch();
+function addWater20() {
+    vitek.addWater(20);
+    var div = document.querySelector("div.amount-water");
+    div.innerText = `Количество воды: ${vitek.getAmountWater()} мл`;
+}
+
+function addCoffee5() {
+    vitek.addCoffee(5);
+    var div = document.querySelector("div.amount-coffee");
+    div.innerText = `Количество кофе: ${vitek.getAmountCoffee()} г`;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    var water = document.querySelector("button.add-water");
+    water.addEventListener("click", addWater20);
+
+    var coffee = document.querySelector("button.add-coffee");
+    coffee.addEventListener("click", addCoffee5);
+
+    var start = document.querySelector("button.start");
+    start.addEventListener("click", vitek.launch);
+
+    var stop = document.querySelector("button.stop");
+    stop.addEventListener("click", vitek.stopLaunch);
+});
+
+// vitek.addWater(50);
+// vitek.addCoffee(50);
+// console.log(vitek.getBoilTime());
+// vitek.launch();
 // vitek.stopLaunch();

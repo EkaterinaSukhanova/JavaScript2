@@ -7,6 +7,9 @@
 <body>
 
     <style>
+        section{
+            text-align: center;
+        }
         button{
             cursor: pointer;
             padding: 5px;
@@ -14,19 +17,22 @@
         }
     </style>
 
-    <script src="script.js"></script>
 
     <section>
         <button type="button" class="add-water">Добавить 20 мл воды</button>
-        <div class="amount-water"></div>
+        <div class="amount-water">Количество воды: 0 мл</div>
 
-        <button type="button" class="add-coffee">Добавить 10 г кофе</button>
-        <div class="amount-coffee"></div>
+        <button type="button" class="add-coffee">Добавить 5 г кофе</button>
+        <div class="amount-coffee">Количество кофе: 0 г</div>
 
         <button type="button" class="start">Начать приготовление кофе</button>
+        <div class="end">Ожидание</div>
+
+
         <button type="button" class="stop">Остановить приготовление кофе</button>
     </section>
 
+    <script src="script.js"></script>
 
 </body>
 </html>
